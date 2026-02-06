@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import * as Tone from "tone";
+import { getTransport } from "tone";
 
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,14 @@ import { Button } from "@/components/ui/Button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/Command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { presets } from "@/data/presets";
-import { useNumberOfStepsStore, useMeterStore, useBPMStore, useGridStore, useAddCrashStore, useAddFillStore } from "@/data/global-state-store";
+import {
+	useNumberOfStepsStore,
+	useMeterStore,
+	useBPMStore,
+	useGridStore,
+	useAddCrashStore,
+	useAddFillStore,
+} from "@/data/global-state-store";
 
 export default function Combobox() {
 	const [open, setOpen] = React.useState(false);
@@ -29,7 +36,7 @@ export default function Combobox() {
 
 	const handleBPMChange = (value: number) => {
 		setBpm(value);
-		Tone.Transport.bpm.value = value;
+		getTransport().bpm.value = value;
 	};
 
 	const loadPreset = (preset: any) => {
@@ -69,7 +76,12 @@ export default function Combobox() {
 										setOpen(false);
 									}}
 								>
-									<Check className={cn("mr-2 h-4 w-4", value === preset.presetName ? "opacity-100" : "opacity-0")} />
+									<Check
+										className={cn(
+											"mr-2 h-4 w-4",
+											value === preset.presetName ? "opacity-100" : "opacity-0",
+										)}
+									/>
 									{preset.presetName}
 								</CommandItem>
 							))}

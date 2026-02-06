@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import * as Tone from "tone";
+import { Players, Sequence, getTransport, start } from "tone";
 import Header from "@/components/Header";
 import { DEFAULT_PATTERNS } from "@/data/global-defaults";
 import { DynamicUnion, RowStep } from "@/data/interfaces";
@@ -29,11 +29,11 @@ import getSampleName from "@/functions/get-sample-name";
 import Footer from "@/components/Footer";
 
 export default function Home() {
-	const [player, setPlayer] = React.useState<Tone.Players | null>(null);
+	const [player, setPlayer] = React.useState<Players | null>(null);
 	const [dynamics, setDynamics] = React.useState<DynamicUnion>("2");
 	const [lamps, setLamps] = React.useState<number | null>(null);
 	const [loopCounter, setLoopCounter] = React.useState<number>(0);
-	const sequenceRef = React.useRef<Tone.Sequence | null>(null);
+	const sequenceRef = React.useRef<Sequence | null>(null);
 
 	// Dropzone
 	const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
@@ -60,7 +60,7 @@ export default function Home() {
 		if (!drumkitDefault) return;
 
 		setDrumkit(drumkit);
-		const preloadSamples = new Tone.Players(drumkitPreloader).toDestination();
+		const preloadSamples = new Players(drumkitPreloader).toDestination();
 		setPlayer(preloadSamples);
 
 		const emptyGrid = createEmptyGrid(drumkit, 32);
@@ -77,7 +77,7 @@ export default function Home() {
 
 		sequenceRef.current?.dispose();
 
-		sequenceRef.current = new Tone.Sequence(
+		sequenceRef.current = new Sequence(
 			(time, step) => {
 				if (step === 0) {
 					setLoopCounter(loopCounter + 1);
@@ -124,13 +124,13 @@ export default function Home() {
 
 	async function togglePlayButton() {
 		if (!isPlaying) {
-			await Tone.start();
-			Tone.Transport.toggle();
+			await start();
+			getTransport().toggle();
 			setIsPlaying(true);
 		}
 
 		if (isPlaying) {
-			Tone.Transport.toggle();
+			getTransport().toggle();
 			setIsPlaying(false);
 			setLamps(null);
 			setLoopCounter(0);
@@ -273,7 +273,7 @@ export default function Home() {
 		setBpm(item.bpm);
 		setAddCrash(item.addCrash);
 		setAddFill(item.addFill);
-		Tone.Transport.bpm.value = item.bpm;
+		getTransport().bpm.value = item.bpm;
 	};
 
 	const handleHotKeys = (e: KeyboardEvent) => {

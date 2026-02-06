@@ -103,7 +103,7 @@ export default function Home() {
 				setLamps(step);
 			},
 			steps,
-			"16n"
+			"16n",
 		);
 		sequenceRef.current.start(0);
 	}, [numberOfSteps, grid, player, loopCounter, lamps, addCrash, addFill]);

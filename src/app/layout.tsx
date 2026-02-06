@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import React from "react";
 import Footer from "@/components/Footer";
+import ThemeSync from "@/components/ThemeSync";
 
 const fontSans = Inter({
 	subsets: ["latin"],
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en" className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
 			<body className="flex flex-col min-h-screen">
+				<ThemeSync />
 				<div className="flex-grow">{children}</div>
 				<Footer />
 			</body>

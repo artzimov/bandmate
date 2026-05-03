@@ -60,7 +60,7 @@ export default function Combobox() {
 					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className="w-[480px] p-0 bg-gray-900">
+			<PopoverContent className="w-[480px] mt-6 p-0 bg-[var--(bg-color)]">
 				<Command>
 					<CommandInput placeholder="Search presets..." />
 					<CommandList>

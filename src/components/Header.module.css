@@ -1,0 +1,38 @@
+.header {
+	background-color: var(--surface-bg);
+	border-bottom: 1px solid var(--surface-border);
+	height: 70px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	overflow: hidden;
+	padding-left: var(--margin-general);
+	padding-right: var(--margin-general);
+	margin-bottom: 20px;
+}
+
+.logo {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+}
+
+.ghost {
+	width: 4rem;
+	height: 4rem;
+	opacity: 0;
+}
+
+.ghost:hover {
+	opacity: 100;
+}
+
+.theme-switch {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 4rem;
+	height: 4rem;
+}

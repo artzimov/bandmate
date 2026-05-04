@@ -12,22 +12,22 @@ export default function About() {
 			<main className="flex justify-center items-center self-start">
 				<div className="about">
 					<div>
-						<button className={"button main-controls font-bold"} disabled>
+						<button className={"main-controls font-bold"} disabled>
 							PLAY
 						</button>
 						/
-						<button className={"button main-controls font-bold text-amber-600"} disabled>
+						<button className={"main-controls font-bold text-amber-600"} disabled>
 							STOP
 						</button>
 					</div>
 					<div>Start/stop playback.</div>
 
 					<div>
-						<button className="button main-controls" disabled>
+						<button className="main-controls" disabled>
 							4/4
 						</button>
 						/
-						<button className="button main-controls" disabled>
+						<button className="main-controls" disabled>
 							3/4
 						</button>
 					</div>
@@ -49,7 +49,7 @@ export default function About() {
 					</div>
 
 					<div>
-						<button className="button main-controls" disabled>
+						<button className="main-controls" disabled>
 							CLEAR
 						</button>
 					</div>
@@ -59,13 +59,13 @@ export default function About() {
 
 					<div>
 						<div>
-							<button className={"button w-[4rem] h-[2.5rem] text-amber-950 font-bold"} disabled>
+							<button className={"w-[4rem] h-[2.5rem] text-amber-950 font-bold"} disabled>
 								1
 							</button>
-							<button className={"button w-[4rem] h-[2.5rem] text-amber-600 font-bold"} disabled>
+							<button className={"w-[4rem] h-[2.5rem] text-amber-600 font-bold"} disabled>
 								2
 							</button>
-							<button className={"button w-[4rem] h-[2.5rem] text-red-700 font-bold"} disabled>
+							<button className={"w-[4rem] h-[2.5rem] text-red-700 font-bold"} disabled>
 								3
 							</button>
 						</div>
@@ -105,11 +105,11 @@ export default function About() {
 					<div>Change the number of steps on the beat map (and the time signature as a result).</div>
 
 					<div>
-						<button className="button savepattern" disabled>
+						<button className="savepattern" disabled>
 							Save 1-{DEFAULT_PATTERNS.length}
 						</button>
 						/
-						<button className="button savepattern" disabled>
+						<button className="savepattern" disabled>
 							Load 1-{DEFAULT_PATTERNS.length}
 						</button>
 					</div>
@@ -119,14 +119,14 @@ export default function About() {
 					</div>
 
 					<div>
-						<button className={"button w-[120px] h-[2.5rem]"} disabled>
+						<button className={"w-[120px] h-[2.5rem]"} disabled>
 							Add accent
 						</button>
 					</div>
 					<div>Adds a crash cymbal at the start of the first loop, and repeats every 2, 4, or 8 loops.</div>
 
 					<div>
-						<button className={"button w-[120px] h-[2.5rem]"} disabled>
+						<button className={"w-[120px] h-[2.5rem]"} disabled>
 							Add fill
 						</button>
 					</div>

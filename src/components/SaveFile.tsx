@@ -1,5 +1,12 @@
 import { saveAs } from "file-saver";
-import { useNumberOfStepsStore, useMeterStore, useBPMStore, useGridStore, useAddCrashStore, useAddFillStore } from "@/data/global-state-store";
+import {
+	useNumberOfStepsStore,
+	useMeterStore,
+	useBPMStore,
+	useGridStore,
+	useAddCrashStore,
+	useAddFillStore,
+} from "@/data/global-state-store";
 import createPreset from "@/functions/create-preset";
 
 export default function SaveFile() {
@@ -26,7 +33,7 @@ export default function SaveFile() {
 	}
 
 	return (
-		<button className="button main-controls" onClick={downloadPreset}>
+		<button className="main-controls" onClick={downloadPreset}>
 			Save
 		</button>
 	);

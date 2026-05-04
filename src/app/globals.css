@@ -11,6 +11,7 @@
 		--active-1: theme(colors.amber.950);
 		--active-2: theme(colors.amber.600);
 		--active-3: theme(colors.red.700);
+		--inactive: #808080;
 		--surface-bg: #111827;
 		--surface-border: #111827;
 		--font-size: 0.9em;
@@ -48,28 +49,7 @@ body {
 		color 0.15s;
 }
 
-.header {
-	background-color: var(--surface-bg);
-	border-bottom: 1px solid var(--surface-border);
-	height: 70px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	overflow: hidden;
-	padding-left: var(--margin-general);
-	padding-right: var(--margin-general);
-	margin-bottom: 20px;
-}
-
-.logo {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: 10px;
-}
-
-.button {
+button {
 	background-color: var(--button-color);
 	color: var(--text-color);
 	border-radius: 7px;
@@ -83,11 +63,11 @@ body {
 		color 0.15s;
 }
 
-.button:enabled:hover {
+button:enabled:hover {
 	background-color: var(--button-hover);
 }
 
-.button:enabled:active {
+button:enabled:active {
 	transform: scale(0.96);
 }
 
@@ -139,59 +119,6 @@ body {
 	color: rgba(255, 255, 255, 0.5);
 }
 
-.note {
-	border-radius: 6px;
-	height: var(--cell-size);
-	max-height: var(--cell-size);
-	width: var(--cell-size);
-	max-width: var(--cell-size);
-	border-style: solid;
-	border-width: 1px;
-	border-color: black;
-	margin: 1px;
-	outline: none;
-	transition:
-		background-color 0.1s,
-		transform 0.08s;
-}
-
-.note:active {
-	transform: scale(0.92);
-}
-
-.quadruple:nth-child(4n) {
-	margin-right: 10px;
-}
-
-.triple:nth-child(3n) {
-	margin-right: 10px;
-}
-
-.inactive {
-	/* background-color: var(--color1); */
-	background-color: #808080;
-	transition: background-color 0.1s;
-}
-
-.inactive:hover {
-	background-color: #646464;
-}
-
-.active-1 {
-	background-color: var(--active-1);
-	transition: background-color 0.1s;
-}
-
-.active-2 {
-	background-color: var(--active-2);
-	transition: background-color 0.1s;
-}
-
-.active-3 {
-	background-color: var(--active-3);
-	transition: background-color 0.1s;
-}
-
 .active-font-1 {
 	color: var(--active-1);
 	font-weight: 700;
@@ -205,13 +132,6 @@ body {
 .active-font-3 {
 	color: var(--active-3);
 	font-weight: 700;
-}
-
-.active-1:hover,
-.active-2:hover,
-.active-3:hover {
-	font-weight: 500;
-	font-size: 125%;
 }
 
 .about {

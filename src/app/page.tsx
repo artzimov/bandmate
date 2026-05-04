@@ -306,7 +306,7 @@ export default function Home() {
 								<div key={"sequencer-row-" + `${rowIndex}`} className="sequencer-row">
 									<div className="row-head">
 										<button
-											className="button cell-size row-label w-[8.5rem] min-w-[7rem] m-[1px]"
+											className="cell-size row-label w-[8.5rem] min-w-[7rem] m-[1px]"
 											onClick={() =>
 												player?.player(`${rowData.rowName}` + "_" + `${dynamics}`).start()
 											}
@@ -393,15 +393,15 @@ export default function Home() {
 				<div className="toolbar">
 					<span className="toolbar-group">
 						<button
-							className={"button main-controls font-bold " + (isPlaying ? " text-amber-600" : "")}
+							className={"main-controls font-bold " + (isPlaying ? " text-amber-600" : "")}
 							onClick={togglePlayButton}
 						>
 							{isPlaying ? "STOP" : "PLAY"}
 						</button>
-						<button className="button main-controls" onClick={handleMeterChange}>
+						<button className="main-controls" onClick={handleMeterChange}>
 							{meter === "quadruple" ? "4/4" : "3/4"}
 						</button>
-						<button className="button main-controls" onClick={clearGrid}>
+						<button className="main-controls" onClick={clearGrid}>
 							CLEAR
 						</button>
 					</span>
@@ -434,16 +434,13 @@ export default function Home() {
 								return (
 									<span key={"pattern-row-" + `${x}`}>
 										<p>
-											<button
-												className="button savepattern"
-												onClick={() => savePresetToLocalStorage(x)}
-											>
+											<button className="savepattern" onClick={() => savePresetToLocalStorage(x)}>
 												Save <b>({x})</b>
 											</button>
 										</p>
 										<p>
 											<button
-												className={"button savepattern"}
+												className={"savepattern"}
 												onClick={() => loadPresetFromLocalStorage(x)}
 											>
 												Load <b>({x})</b>

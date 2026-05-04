@@ -22,7 +22,7 @@ export default function AddCrashControls({ addCrash, setAddCrash }: AddCrashCont
 			{options.map(({ label, value }) => (
 				<button
 					key={label}
-					className={"button flex-1 w-[6rem] h-[2.5rem]" + (addCrash === value ? " active-font-2" : "")}
+					className={"flex-1 w-[6rem] h-[2.5rem]" + (addCrash === value ? " active-font-2" : "")}
 					onClick={() => setAddCrash(value)}
 				>
 					{label}

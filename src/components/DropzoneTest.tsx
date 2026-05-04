@@ -6,5 +6,7 @@ import { useDropzone } from "react-dropzone";
 export default function Dropzone() {
 	const [isDragging, setIsDragging] = useState(false);
 
-	return <div className="w-[40px] h-[40px] bg-zinc-600 border-2 border-cyan-700 flex flex-col items-center justify-center text-center"></div>;
+	return (
+		<div className="w-[40px] h-[40px] bg-zinc-600 border-2 border-cyan-700 flex flex-col items-center justify-center text-center"></div>
+	);
 }

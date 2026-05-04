@@ -27,7 +27,7 @@ export default function UploadFile() {
 	}
 
 	return (
-		<button className="button main-controls" onClick={() => inputFile.current.click()}>
+		<button className="main-controls" onClick={() => inputFile.current.click()}>
 			Upload
 			<input type="file" onChange={uploadPreset} ref={inputFile} hidden></input>
 		</button>

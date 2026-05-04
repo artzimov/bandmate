@@ -1,4 +1,5 @@
 import { GridRow, Meter } from "@/data/interfaces";
+import styles from "./BeatMapCell.module.css";
 
 interface BeatMapCellProps {
 	rowData: GridRow;
@@ -9,15 +10,26 @@ interface BeatMapCellProps {
 }
 
 export default function BeatMapCell({ rowData, rowIndex, cellIndex, meter, toggleNote }: BeatMapCellProps) {
+	const dynamic = rowData.rowSteps[cellIndex];
+
+	const handleActivate = () => toggleNote(cellIndex, rowIndex);
+
 	return (
-		<button
+		<div
 			key={cellIndex}
-			className={
-				(rowData.rowSteps[cellIndex] !== null ? "note active-" + `${rowData.rowSteps[cellIndex]}` : "note inactive") + " " + `${meter}`
-			}
-			onClick={() => toggleNote(cellIndex, rowIndex)}
+			role="button"
+			tabIndex={0}
+			aria-pressed={dynamic !== null}
+			className={`${styles.note} ${dynamic !== null ? styles[`active-${dynamic}`] : styles.inactive} ${styles[meter]}`}
+			onClick={handleActivate}
+			onKeyDown={(e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					handleActivate();
+				}
+			}}
 		>
-			<span className="opacity-50">{rowData.rowSteps[cellIndex] ? rowData.rowSteps[cellIndex] : ""}</span>
-		</button>
+			<span className="opacity-50">{dynamic ? dynamic : ""}</span>
+		</div>
 	);
 }

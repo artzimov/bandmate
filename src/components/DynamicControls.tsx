@@ -13,7 +13,9 @@ export default function DynamicControls({ dynamics, setDynamics }: DynamicContro
 				return (
 					<button
 						key={elm}
-						className={"button min-w-[2rem] w-[4rem] h-[2.5rem] " + (dynamics === elm ? ` active-font-${elm}` : "")}
+						className={
+							"min-w-[2rem] w-[4rem] h-[2.5rem] " + (dynamics === elm ? ` active-font-${elm}` : "")
+						}
 						onClick={() => setDynamics(elm)}
 					>
 						{elm}

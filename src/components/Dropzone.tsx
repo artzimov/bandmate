@@ -1,6 +1,13 @@
 import React from "react";
 import { MutableRefObject, useRef } from "react";
-import { useNumberOfStepsStore, useMeterStore, useBPMStore, useGridStore, useAddCrashStore, useAddFillStore } from "@/data/global-state-store";
+import {
+	useNumberOfStepsStore,
+	useMeterStore,
+	useBPMStore,
+	useGridStore,
+	useAddCrashStore,
+	useAddFillStore,
+} from "@/data/global-state-store";
 //import uploadPreset from "@/functions/upload-preset";
 
 function UploadFile() {
@@ -40,13 +47,12 @@ function UploadFile() {
 	}
 
 	return (
-		<button className="button main-controls" onClick={() => inputFile.current.click()}>
+		<button className="main-controls" onClick={() => inputFile.current.click()}>
 			Upload
 			<input type="file" onChange={uploadPreset} ref={inputFile} hidden></input>
 		</button>
 	);
 }
-
 
 export default function Dropzone(props: any) {
 	return <div></div>;

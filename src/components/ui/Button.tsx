@@ -35,12 +35,12 @@ export interface ButtonProps
 	asChild?: boolean;
 }
 
-const RadixButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	({ className, variant, size, asChild = false, ...props }, ref) => {
 		const Comp = asChild ? Slot : "button";
 		return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
 	},
 );
-RadixButton.displayName = "RadixButton";
+Button.displayName = "Button";
 
-export { RadixButton, buttonVariants };
+export { Button, buttonVariants };

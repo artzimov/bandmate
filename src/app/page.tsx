@@ -306,7 +306,7 @@ export default function Home() {
 								<div key={"sequencer-row-" + `${rowIndex}`} className="sequencer-row">
 									<div className="row-head">
 										<button
-											className="button cell-size row-label w-[8rem] min-w-[7rem] m-[1px]"
+											className="button cell-size row-label w-[8.5rem] min-w-[7rem] m-[1px]"
 											onClick={() =>
 												player?.player(`${rowData.rowName}` + "_" + `${dynamics}`).start()
 											}
@@ -314,7 +314,12 @@ export default function Home() {
 											{rowData.rowButtonName}
 										</button>
 
-										<span className="row-tools">
+										<span
+											className={
+												"row-tools" +
+												`${rowIndex === 0 ? " upper" : rowIndex === grid.length - 1 ? " lower" : ""}`
+											}
+										>
 											<BeatMapControl
 												label={"⬛⬛⬛⬛"}
 												rowIndex={rowIndex}
@@ -366,8 +371,8 @@ export default function Home() {
 					) : (
 						<p>Loading...</p>
 					)}
-					<div className="flex flex-row justify-start items-center mt-[4px]">
-						<span className="w-[16rem] h-[30px] mr-[28px]"></span>
+					<div className="flex flex-row justify-start items-center mt-[4px] bg-">
+						<span className="w-[16.25rem] h-[30px] mr-[28px]"></span>
 
 						<span className="flex flex-row">
 							{[...Array(numberOfSteps)].map((_, i) => {

@@ -16,7 +16,7 @@ export default function BPMSlider({ bpm, setBpm }: BPMSliderProps) {
 	return (
 		<>
 			<Slider
-				className="w-[300px] min-w-[120px] ml-[10px] mr-[10px] bg-slate-700 hover:bg-gray-600"
+				className="w-[300px] min-w-[120px] ml-[10px] mr-[10px] bg-[var(--slider-bg)] hover:bg-[var(--slider-hover)]"
 				value={[bpm]}
 				defaultValue={[120]}
 				min={30}

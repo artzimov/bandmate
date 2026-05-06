@@ -135,18 +135,61 @@ button:enabled:active {
 }
 
 .about {
-	display: grid;
-	border: 1px solid var(--surface-border);
-	grid-template-columns: 250px 650px;
-	/*margin-top: 50px;*/
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	max-width: 780px;
+	margin: 12px auto;
+	text-align: left;
+	font-size: 0.85em;
 }
 
-.about > div {
+.about-intro {
+	text-align: left;
+	opacity: 0.75;
+	line-height: 1.4;
+	margin: 0 0 4px;
+}
+
+.about-section {
+	background-color: var(--panel-bg);
+	border: 1px solid var(--panel-border);
+	border-radius: 10px;
+	padding: 8px 14px;
 	display: flex;
-	border: 2px solid var(--surface-border);
-	min-height: 75px;
-	justify-content: center;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.about-section h2 {
+	font-size: 0.8em;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	opacity: 0.55;
+	margin: 0;
+}
+
+.about-row {
+	display: grid;
+	grid-template-columns: 150px 1fr;
 	align-items: center;
+	gap: 14px;
+}
+
+.about-row .controls-demo {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	flex-shrink: 0;
+	transform: scale(0.85);
+	transform-origin: left center;
+}
+
+.about-row p {
+	margin: 0;
+	line-height: 1.35;
+	opacity: 0.85;
 }
 
 .dropzone-wrapper {
@@ -227,7 +270,7 @@ button:enabled:active {
 	align-items: center;
 	gap: 1px;
 	padding: 0;
-	background-color: black;
+	background-color: var(--panel-border);
 }
 
 .upper {

@@ -38,3 +38,21 @@ export interface Preset {
 	addFill: AdditionsUnion,
 	grid: Grid,
 }
+
+const AdditionsValidator = z.union([z.literal(2), z.literal(4), z.literal(8), z.null()]);
+
+const GridRowValidator = z.object({
+	rowName: z.string(),
+	rowButtonName: z.string(),
+	rowSteps: z.array(z.enum(DYNAMICS as [string, ...string[]]).nullable()).length(32),
+});
+
+export const PresetValidator = z.object({
+	description: z.string(),
+	steps: StepValidator,
+	meter: z.enum(["quadruple", "triple"]),
+	bpm: BPMValidator,
+	addCrash: AdditionsValidator,
+	addFill: AdditionsValidator,
+	grid: z.array(GridRowValidator),
+});

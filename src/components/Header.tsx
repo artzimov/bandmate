@@ -4,8 +4,8 @@ import { Button } from "./ui/Button";
 import Combobox from "./ui/Combobox";
 import cleanLocalStorage from "@/functions/clean-local-storage";
 import { usePathname } from "next/navigation";
-//import SaveFile from "@/components/SaveFile";
-//import UploadFile from "@/components/UploadFile";
+import SaveFile from "@/components/SaveFile";
+import UploadFile from "@/components/UploadFile";
 import { useThemeStore } from "@/data/global-state-store";
 import styles from "./Header.module.css";
 
@@ -34,8 +34,8 @@ export default function Header() {
 					</a>
 				) : (
 					<>
-						{/*<SaveFile />*/}
-						{/*<UploadFile />*/}
+						<SaveFile />
+						<UploadFile />
 						<Combobox />
 						<a href="/about">
 							<button className="main-controls">About</button>

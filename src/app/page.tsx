@@ -305,43 +305,45 @@ export default function Home() {
 						grid.map((rowData, rowIndex) => {
 							return (
 								<div key={"sequencer-row-" + `${rowIndex}`} className="sequencer-row">
-									<button
-										className="button cell-size row-label w-[8rem] min-w-[7rem] m-[1px] mr-[10px]"
-										onClick={() => player?.player(`${rowData.rowName}` + "_" + `${dynamics}`).start()}
-									>
-										{rowData.rowButtonName}
-									</button>
+									<div className="row-head">
+										<button
+											className="button cell-size row-label w-[8rem] min-w-[7rem] m-[1px]"
+											onClick={() => player?.player(`${rowData.rowName}` + "_" + `${dynamics}`).start()}
+										>
+											{rowData.rowButtonName}
+										</button>
 
-									<span className="row-tools mr-[10px]">
-										<BeatMapControl
-											label={"⬛⬛⬛⬛"}
-											rowIndex={rowIndex}
-											extraCss={"text-[4px]"}
-											title="Fill entire row with notes"
-											action={fillEntireRow}
-										/>
-										<BeatMapControl
-											label={"♪"}
-											rowIndex={rowIndex}
-											extraCss={"font-extrabold text-xl"}
-											title="Fill strong beats only"
-											action={fillStrongBeats}
-										/>
-										<BeatMapControl
-											label={"♪"}
-											rowIndex={rowIndex}
-											extraCss={"font-extralight text-xs"}
-											title="Fill weak beats only"
-											action={fillWeakBeats}
-										/>
-										<BeatMapControl
-											label={"X"}
-											rowIndex={rowIndex}
-											extraCss={""}
-											title="Clear this row"
-											action={clearEntireRow}
-										/>
-									</span>
+										<span className="row-tools">
+											<BeatMapControl
+												label={"⬛⬛⬛⬛"}
+												rowIndex={rowIndex}
+												extraCss={"text-[4px]"}
+												title="Fill entire row with notes"
+												action={fillEntireRow}
+											/>
+											<BeatMapControl
+												label={"♪"}
+												rowIndex={rowIndex}
+												extraCss={"font-extrabold text-xl"}
+												title="Fill strong beats only"
+												action={fillStrongBeats}
+											/>
+											<BeatMapControl
+												label={"♪"}
+												rowIndex={rowIndex}
+												extraCss={"font-extralight text-xs"}
+												title="Fill weak beats only"
+												action={fillWeakBeats}
+											/>
+											<BeatMapControl
+												label={"X"}
+												rowIndex={rowIndex}
+												extraCss={""}
+												title="Clear this row"
+												action={clearEntireRow}
+											/>
+										</span>
+									</div>
 
 									<span className="step-grid">
 										{[...Array(numberOfSteps)].map((_, cellIndex) => {

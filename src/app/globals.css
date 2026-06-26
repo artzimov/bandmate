@@ -11,9 +11,20 @@
 		--active-1: theme(colors.amber.950);
 		--active-2: theme(colors.amber.600);
 		--active-3: theme(colors.red.700);
+		--surface-bg: #111827;
+		--surface-border: #111827;
 		--font-size: 0.9em;
 		--cell-size: 30px;
 		--margin-general: 20px;
+	}
+
+	:root.light {
+		--bg-color: theme(colors.neutral.100);
+		--text-color: theme(colors.neutral.950);
+		--button-color: theme(colors.neutral.300);
+		--button-hover: theme(colors.neutral.400);
+		--surface-bg: theme(colors.white);
+		--surface-border: theme(colors.neutral.300);
 	}
 }
 
@@ -22,10 +33,14 @@ body {
 	color: var(--text-color);
 	text-align: center;
 	font-size: var(--font-size);
+	transition:
+		background-color 0.15s,
+		color 0.15s;
 }
 
 .header {
-	background-color: #111827;
+	background-color: var(--surface-bg);
+	border-bottom: 1px solid var(--surface-border);
 	height: 70px;
 	display: flex;
 	flex-direction: row;
@@ -46,11 +61,15 @@ body {
 
 .button {
 	background-color: var(--button-color);
+	color: var(--text-color);
 	border-radius: 5px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: black;
 	outline: none;
+	transition:
+		background-color 0.15s,
+		color 0.15s;
 }
 
 .button:enabled:hover {
@@ -175,14 +194,14 @@ body {
 
 .about {
 	display: grid;
-	border: 1px solid #111827;
+	border: 1px solid var(--surface-border);
 	grid-template-columns: 250px 650px;
 	/*margin-top: 50px;*/
 }
 
 .about > div {
 	display: flex;
-	border: 2px solid #111827;
+	border: 2px solid var(--surface-border);
 	min-height: 75px;
 	justify-content: center;
 	align-items: center;

@@ -1,5 +1,12 @@
-import * as Tone from "tone";
-import { useNumberOfStepsStore, useMeterStore, useBPMStore, useGridStore, useAddCrashStore, useAddFillStore } from "@/data/global-state-store";
+import { getTransport } from "tone";
+import {
+	useNumberOfStepsStore,
+	useMeterStore,
+	useBPMStore,
+	useGridStore,
+	useAddCrashStore,
+	useAddFillStore,
+} from "@/data/global-state-store";
 import { Preset } from "@/data/interfaces";
 
 export default function useUploadPreset() {
@@ -14,7 +21,7 @@ export default function useUploadPreset() {
 		setNumberOfSteps(content.steps);
 		setMeter(content.meter);
 		setBpm(content.bpm);
-		Tone.Transport.bpm.value = content.bpm;
+		getTransport().bpm.value = content.bpm;
 		setGrid(content.grid);
 		setAddCrash(content.addCrash);
 		setAddFill(content.addFill);

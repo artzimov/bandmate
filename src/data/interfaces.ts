@@ -9,6 +9,8 @@ export type Step = z.infer<typeof StepValidator>;
 
 export type Meter = "quadruple" | "triple";
 
+export type Theme = "dark" | "light";
+
 export const Additions = [2, 4, 8, null]
 export type AdditionsUnion = typeof Additions[number]
 export interface AdditionsOption {

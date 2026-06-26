@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { getTransport } from "tone";
 import { BPM } from "@/data/interfaces";
 import Slider from "./ui/Slider";
 
@@ -10,7 +10,7 @@ interface BPMSliderProps {
 export default function BPMSlider({ bpm, setBpm }: BPMSliderProps) {
 	function handleBPMSliderChange(values: number[]) {
 		setBpm(values[0]);
-		Tone.Transport.bpm.value = values[0];
+		getTransport().bpm.value = values[0];
 	}
 
 	return (

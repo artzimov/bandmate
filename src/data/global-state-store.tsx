@@ -1,6 +1,7 @@
 "use client";
 import { create } from "zustand";
-import { Drumkit, Step, Meter, BPM, Grid, AdditionsUnion } from "@/data/interfaces";
+import { persist } from "zustand/middleware";
+import { Drumkit, Step, Meter, BPM, Grid, AdditionsUnion, Theme } from "@/data/interfaces";
 import { DEFAULT_BPM, DEFAULT_STEPS } from "@/data/global-defaults";
 import { drumkitDefault } from "./kits/default/preloader";
 
@@ -46,6 +47,11 @@ interface AddFillState {
 	setAddFill: (addCrash: AdditionsUnion) => void;
 }
 
+interface ThemeState {
+	theme: Theme;
+	toggleTheme: () => void;
+}
+
 // Stores
 
 export const useDrumkitStore = create<DrumkitState>()((set) => ({
@@ -87,3 +93,13 @@ export const useAddFillStore = create<AddFillState>()((set) => ({
 	addFill: null,
 	setAddFill: (value) => set({ addFill: value }),
 }));
+
+export const useThemeStore = create<ThemeState>()(
+	persist(
+		(set, get) => ({
+			theme: "dark",
+			toggleTheme: () => set({ theme: get().theme === "dark" ? "light" : "dark" }),
+		}),
+		{ name: "bandmate-theme" },
+	),
+);

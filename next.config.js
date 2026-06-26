@@ -7,6 +7,11 @@ const nextConfig = {
 	},
 	webpack(config, options) {
 		const { isServer } = options;
+
+		// tone's package.json "browser" field points at its UMD bundle, which has
+		// no ES exports at all; force resolution to the real ESM build instead
+		config.resolve.alias["tone"] = require.resolve("tone/build/esm/index.js");
+
 		config.module.rules.push({
 			test: /\.(ogg|mp3|wav|mpe?g)$/i,
 			exclude: config.exclude,

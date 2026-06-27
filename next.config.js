@@ -1,3 +1,32 @@
+const withPWA = require("@ducanh2912/next-pwa").default({
+	dest: "public",
+	disable: process.env.NODE_ENV === "development",
+	register: true,
+	cacheStartUrl: true,
+	workboxOptions: {
+		runtimeCaching: [
+			{
+				// drum samples never change after a release, so once a sample is
+				// fetched it should be served from cache on every later visit
+				// instead of hitting the network again
+				urlPattern: /\.(?:mp3|wav|ogg)$/i,
+				handler: "CacheFirst",
+				options: {
+					cacheName: "bandmate-drum-samples",
+					expiration: {
+						maxEntries: 250,
+						maxAgeSeconds: 60 * 60 * 24 * 365,
+					},
+					cacheableResponse: {
+						statuses: [0, 200],
+					},
+				},
+			},
+			...require("@ducanh2912/next-pwa").runtimeCaching,
+		],
+	},
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	devIndicators: false,
@@ -34,4 +63,4 @@ const nextConfig = {
 	},
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);

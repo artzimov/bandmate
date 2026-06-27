@@ -26,7 +26,6 @@ import DynamicControls from "@/components/DynamicControls";
 import BPMSlider from "@/components/BPMSlider";
 import StepSlider from "@/components/StepSlider";
 import getSampleName from "@/functions/get-sample-name";
-import Footer from "@/components/Footer";
 
 export default function Home() {
 	const [player, setPlayer] = React.useState<Players | null>(null);
@@ -299,122 +298,170 @@ export default function Home() {
 		<>
 			<Header />
 
-			<section className="ml-[20px]">
-				{grid ? (
-					grid.map((rowData, rowIndex) => {
-						return (
-							<div key={"sequencer-row-" + `${rowIndex}`} className="flex justify-start items-center">
-								<button
-									className="button cell-size w-[8rem] min-w-[7rem] m-[1px] mr-[10px]"
-									onClick={() => player?.player(`${rowData.rowName}` + "_" + `${dynamics}`).start()}
-								>
-									{rowData.rowButtonName}
-								</button>
-								<BeatMapControl
-									label={"⬛⬛⬛⬛"}
-									rowIndex={rowIndex}
-									extraCss={"text-[4px]"}
-									title="Fill entire row with notes"
-									action={fillEntireRow}
-								/>
-								<BeatMapControl
-									label={"♪"}
-									rowIndex={rowIndex}
-									extraCss={"font-extrabold text-xl"}
-									title="Fill strong beats only"
-									action={fillStrongBeats}
-								/>
-								<BeatMapControl
-									label={"♪"}
-									rowIndex={rowIndex}
-									extraCss={"font-extralight text-xs"}
-									title="Fill weak beats only"
-									action={fillWeakBeats}
-								/>
-								<BeatMapControl
-									label={"X"}
-									rowIndex={rowIndex}
-									extraCss={"mr-[10px]"}
-									title="Clear this row"
-									action={clearEntireRow}
-								/>
-
-								<span className="flex align-center">
-									{[...Array(numberOfSteps)].map((_, cellIndex) => {
-										return (
-											<BeatMapCell
-												key={cellIndex}
-												rowData={rowData}
-												rowIndex={rowIndex}
-												cellIndex={cellIndex}
-												meter={meter}
-												toggleNote={toggleNote}
-											/>
-										);
-									})}
-								</span>
-							</div>
-						);
-					})
-				) : (
-					<p>Loading...</p>
-				)}
-				<div className="flex flex-row justify-start items-center">
-					<span className="w-[16rem] h-[30px] mr-[28px]"></span>
-
-					<span className="flex flex-row">
-						{[...Array(numberOfSteps)].map((_, i) => {
+			<section className="ml-[20px] mr-[20px]">
+				<div className="sequencer-panel">
+					{grid ? (
+						grid.map((rowData, rowIndex) => {
 							return (
-								<span key={"lamp-" + i} className={`lamp-square ${meter}`}>
-									{lamps === i ? <span key={"lamp_" + i} className="lamp bg-red-700"></span> : <></>}
-								</span>
+								<div key={"sequencer-row-" + `${rowIndex}`} className="sequencer-row">
+									<div className="row-head">
+										<button
+											className="button cell-size row-label w-[8.5rem] min-w-[7rem] m-[1px]"
+											onClick={() =>
+												player?.player(`${rowData.rowName}` + "_" + `${dynamics}`).start()
+											}
+										>
+											{rowData.rowButtonName}
+										</button>
+
+										<span
+											className={
+												"row-tools" +
+												`${rowIndex === 0 ? " upper" : rowIndex === grid.length - 1 ? " lower" : ""}`
+											}
+										>
+											<BeatMapControl
+												label={"⬛⬛⬛⬛"}
+												rowIndex={rowIndex}
+												extraCss={"text-[4px]"}
+												title="Fill entire row with notes"
+												action={fillEntireRow}
+											/>
+											<BeatMapControl
+												label={"♪"}
+												rowIndex={rowIndex}
+												extraCss={"font-extrabold text-xl"}
+												title="Fill strong beats only"
+												action={fillStrongBeats}
+											/>
+											<BeatMapControl
+												label={"♪"}
+												rowIndex={rowIndex}
+												extraCss={"font-extralight text-xs"}
+												title="Fill weak beats only"
+												action={fillWeakBeats}
+											/>
+											<BeatMapControl
+												label={"X"}
+												rowIndex={rowIndex}
+												extraCss={""}
+												title="Clear this row"
+												action={clearEntireRow}
+											/>
+										</span>
+									</div>
+
+									<span className="step-grid">
+										{[...Array(numberOfSteps)].map((_, cellIndex) => {
+											return (
+												<BeatMapCell
+													key={cellIndex}
+													rowData={rowData}
+													rowIndex={rowIndex}
+													cellIndex={cellIndex}
+													meter={meter}
+													toggleNote={toggleNote}
+												/>
+											);
+										})}
+									</span>
+								</div>
 							);
-						})}
+						})
+					) : (
+						<p>Loading...</p>
+					)}
+					<div className="flex flex-row justify-start items-center mt-[4px] bg-">
+						<span className="w-[16.25rem] h-[30px] mr-[28px]"></span>
+
+						<span className="flex flex-row">
+							{[...Array(numberOfSteps)].map((_, i) => {
+								return (
+									<span key={"lamp-" + i} className={`lamp-square ${meter}`}>
+										{lamps === i ? (
+											<span key={"lamp_" + i} className="lamp bg-red-700"></span>
+										) : (
+											<></>
+										)}
+									</span>
+								);
+							})}
+						</span>
+					</div>
+				</div>
+
+				<div className="toolbar">
+					<span className="toolbar-group">
+						<button
+							className={"button main-controls font-bold " + (isPlaying ? " text-amber-600" : "")}
+							onClick={togglePlayButton}
+						>
+							{isPlaying ? "STOP" : "PLAY"}
+						</button>
+						<button className="button main-controls" onClick={handleMeterChange}>
+							{meter === "quadruple" ? "4/4" : "3/4"}
+						</button>
+						<button className="button main-controls" onClick={clearGrid}>
+							CLEAR
+						</button>
+					</span>
+
+					<span className="toolbar-divider"></span>
+
+					<span className="toolbar-group">
+						<span className="toolbar-label">Dynamics</span>
+						<DynamicControls dynamics={dynamics} setDynamics={setDynamics} />
+					</span>
+
+					<span className="toolbar-divider"></span>
+
+					<span className="toolbar-group">
+						<BPMSlider bpm={bpm} setBpm={setBpm} />
+					</span>
+
+					<span className="toolbar-divider"></span>
+
+					<span className="toolbar-group">
+						<StepSlider numberOfSteps={numberOfSteps} setNumberOfSteps={setNumberOfSteps} />
 					</span>
 				</div>
-				<div className="flex flex-row flex-start items-center m-[20px] gap-[8px]">
-					<button
-						className={"button main-controls font-bold " + (isPlaying ? " text-amber-600" : "")}
-						onClick={togglePlayButton}
-					>
-						{isPlaying ? "STOP" : "PLAY"}
-					</button>
-					<button className="button main-controls" onClick={handleMeterChange}>
-						{meter === "quadruple" ? "4/4" : "3/4"}
-					</button>
-					<button className="button main-controls" onClick={clearGrid}>
-						CLEAR
-					</button>
 
-					<DynamicControls dynamics={dynamics} setDynamics={setDynamics} />
-					<BPMSlider bpm={bpm} setBpm={setBpm} />
-					<StepSlider numberOfSteps={numberOfSteps} setNumberOfSteps={setNumberOfSteps} />
-				</div>
-				<div className="saved-patterns">
-					{DEFAULT_PATTERNS.map((x) => {
-						return (
-							<span key={"pattern-row-" + `${x}`}>
-								<p>
-									<button className="button savepattern" onClick={() => savePresetToLocalStorage(x)}>
-										Save <b>({x})</b>
-									</button>
-								</p>
-								<p>
-									<button
-										className={"button savepattern"}
-										onClick={() => loadPresetFromLocalStorage(x)}
-									>
-										Load <b>({x})</b>
-									</button>
-								</p>
-							</span>
-						);
-					})}
+				<div className="bottom-panels">
+					<div className="panel-card">
+						<h2>Presets</h2>
+						<div className="saved-patterns !ml-0">
+							{DEFAULT_PATTERNS.map((x) => {
+								return (
+									<span key={"pattern-row-" + `${x}`}>
+										<p>
+											<button
+												className="button savepattern"
+												onClick={() => savePresetToLocalStorage(x)}
+											>
+												Save <b>({x})</b>
+											</button>
+										</p>
+										<p>
+											<button
+												className={"button savepattern"}
+												onClick={() => loadPresetFromLocalStorage(x)}
+											>
+												Load <b>({x})</b>
+											</button>
+										</p>
+									</span>
+								);
+							})}
+						</div>
+					</div>
 
-					<span className="flex flex-col flex-nowrap ml-[48px]">
-						<AddCrashControls addCrash={addCrash} setAddCrash={setAddCrash} />
-						<AddFillControls addFill={addFill} setAddFill={setAddFill} />
-					</span>
+					<div className="panel-card">
+						<h2>Auto Add</h2>
+						<span className="flex flex-col flex-nowrap gap-[6px]">
+							<AddCrashControls addCrash={addCrash} setAddCrash={setAddCrash} />
+							<AddFillControls addFill={addFill} setAddFill={setAddFill} />
+						</span>
+					</div>
 				</div>
 			</section>
 		</>

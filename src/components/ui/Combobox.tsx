@@ -1,11 +1,10 @@
 "use client";
-
 import * as React from "react";
 import { getTransport } from "tone";
 
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
+import { RadixButton } from "@/components/ui/RadixButton";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/Command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { presets } from "@/data/presets";
@@ -55,10 +54,15 @@ export default function Combobox() {
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
-				<Button variant="outline" role="combobox" aria-expanded={open} className="w-[320px] justify-between">
+				<RadixButton
+					variant="outline"
+					role="combobox"
+					aria-expanded={open}
+					className="w-[320px] justify-between"
+				>
 					{value ? value : "Select preset..."}
 					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-				</Button>
+				</RadixButton>
 			</PopoverTrigger>
 			<PopoverContent className="w-[480px] mt-6 p-0 bg-[var--(bg-color)]">
 				<Command>

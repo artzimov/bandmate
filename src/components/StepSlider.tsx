@@ -14,7 +14,7 @@ export default function StepSlider({ numberOfSteps, setNumberOfSteps }: StepSlid
 	return (
 		<>
 			<Slider
-				className="w-[150px] min-w-[60px] ml-[10px] mr-[10px] bg-slate-700 hover:bg-gray-600"
+				className="w-[150px] min-w-[60px] ml-[10px] mr-[10px] bg-[var(--slider-bg)] hover:bg-[var(--slider-hover)]"
 				value={[numberOfSteps]}
 				defaultValue={[16]}
 				min={4}

@@ -18,7 +18,7 @@
 		--margin-general: 20px;
 		--panel-bg: theme(colors.neutral.900);
 		--panel-border: theme(colors.neutral.800);
-		--slider-bg: theme(colors.slate.700);
+		--slider-bg: theme(colors.amber.700);
 		--slider-hover: theme(colors.gray.600);
 		--row-hover: rgba(255, 255, 255, 0.03);
 	}
@@ -27,14 +27,13 @@
 		--bg-color: theme(colors.neutral.100);
 		--text-color: theme(colors.neutral.950);
 		--button-color: theme(colors.neutral.400);
-		--button-hover: theme(colors.neutral.500);
+		--button-hover: theme(colors.neutral.400);
 		--surface-bg: theme(colors.white);
 		--surface-border: theme(colors.neutral.300);
 		--panel-bg: theme(colors.neutral.300);
-		--slider-bg: theme(colors.neutral.400);
-		--slider-hover: theme(colors.neutral.500);
+		--slider-bg: theme(colors.slate.500);
+		--slider-hover: theme(colors.gray.400);
 		--panel-border: theme(colors.neutral.100);
-		--row-hover: rgba(255, 255, 255, 0.18);
 	}
 }
 

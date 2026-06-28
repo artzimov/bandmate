@@ -1,6 +1,5 @@
 "use client";
 import BeatMapControl from "@/components/BeatMapControl";
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Slider from "@/components/ui/Slider";
 import { DEFAULT_PATTERNS } from "@/data/global-defaults";
@@ -11,129 +10,193 @@ export default function About() {
 			<Header />
 			<main className="flex justify-center items-center self-start">
 				<div className="about">
-					<div>
-						<button className={"main-controls font-bold"} disabled>
-							PLAY
-						</button>
-						/
-						<button className={"main-controls font-bold text-amber-600"} disabled>
-							STOP
-						</button>
-					</div>
-					<div>Start/stop playback.</div>
+					<p className="about-intro">
+						Bandmate is a step sequencer for drums. Program a beat by clicking cells in the grid, then hit
+						Play. Below is a quick guide to every control.
+					</p>
 
-					<div>
-						<button className="main-controls" disabled>
-							4/4
-						</button>
-						/
-						<button className="main-controls" disabled>
-							3/4
-						</button>
-					</div>
-					<div>
-						Change between quadruple and triple meter. It's purely cosmetic and does not affect playback.
-						Just changes gaps between cells to make beats in different meters easier to type.
-					</div>
+					<section className="about-section">
+						<h2>Playback</h2>
 
-					<div>
-						<BeatMapControl label={"⬛⬛⬛⬛"} rowIndex={0} extraCss={"text-[4px]"} disabled={true} />
-						<BeatMapControl label={"♪"} rowIndex={0} extraCss={"font-extrabold text-xl"} disabled={true} />
-						<BeatMapControl label={"♪"} rowIndex={0} extraCss={"font-extralight text-xs"} disabled={true} />
-						<BeatMapControl label={"X"} rowIndex={0} extraCss={""} disabled={true} />
-					</div>
-					<div>
-						These controls allow to manipulate their entire respective rows: to fill them with notes
-						(currently chosen dynamics will be used), fill only strong or weak beats, or clear them,
-						respectively.
-					</div>
-
-					<div>
-						<button className="main-controls" disabled>
-							CLEAR
-						</button>
-					</div>
-					<div>
-						<p>Clear the whole beat map and reset it to default.</p>
-					</div>
-
-					<div>
-						<div>
-							<button className={"w-[4rem] h-[2.5rem] text-amber-950 font-bold"} disabled>
-								1
-							</button>
-							<button className={"w-[4rem] h-[2.5rem] text-amber-600 font-bold"} disabled>
-								2
-							</button>
-							<button className={"w-[4rem] h-[2.5rem] text-red-700 font-bold"} disabled>
-								3
-							</button>
+						<div className="about-row">
+							<span className="controls-demo">
+								<button className={"main-controls font-bold"} disabled>
+									PLAY
+								</button>
+								<button className={"main-controls font-bold text-amber-600"} disabled>
+									STOP
+								</button>
+							</span>
+							<p>
+								Start or stop the playback. You can also press <b>X</b> on your keyboard.
+							</p>
 						</div>
-					</div>
-					<div>
-						<p>
-							Change the dynamics of notes you will be typing.
-							<br />
-							<span className="text-[#451a03] font-bold">1</span>'s are the quietest.{" "}
-							<span className="text-[#d97706] font-bold">2</span>'s are typed by default.{" "}
-							<span className="text-[#b91c1c] font-bold">3</span>'s are the loudest.
-						</p>
-					</div>
 
-					<div>
-						BPM{" "}
-						<Slider
-							className="w-[75px] bg-slate-700 ml-[10px] mr-[10px]"
-							value={[4]}
-							min={0}
-							max={5}
-							step={1}
-						/>
-					</div>
-					<div>Change tempo (range: 30-300).</div>
+						<div className="about-row">
+							<span className="controls-demo">
+								<button className="main-controls" disabled>
+									4/4
+								</button>
+								<button className="main-controls" disabled>
+									3/4
+								</button>
+							</span>
+							<p>
+								Switch between quadruple and triple meter. This is purely visual - it only changes the
+								spacing between cells to make it easier to type beats in that time signature, and does
+								not affect playback.
+							</p>
+						</div>
 
-					<div>
-						Steps{" "}
-						<Slider
-							className="w-[75px] bg-slate-700 ml-[10px] mr-[10px]"
-							value={[4]}
-							min={0}
-							max={5}
-							step={1}
-						/>
-					</div>
-					<div>Change the number of steps on the beat map (and the time signature as a result).</div>
+						<div className="about-row">
+							<span className="controls-demo">
+								<button className="main-controls" disabled>
+									CLEAR
+								</button>
+							</span>
+							<p>Wipe the entire beat map and start over with an empty grid.</p>
+						</div>
+					</section>
 
-					<div>
-						<button className="savepattern" disabled>
-							Save 1-{DEFAULT_PATTERNS.length}
-						</button>
-						/
-						<button className="savepattern" disabled>
-							Load 1-{DEFAULT_PATTERNS.length}
-						</button>
-					</div>
-					<div>
-						Save preset to your browser's local storage. Use Load buttons to load these presets back in
-						Bandmate.
-					</div>
+					<section className="about-section">
+						<h2>Row tools</h2>
 
-					<div>
-						<button className={"w-[120px] h-[2.5rem]"} disabled>
-							Add accent
-						</button>
-					</div>
-					<div>Adds a crash cymbal at the start of the first loop, and repeats every 2, 4, or 8 loops.</div>
+						<div className="about-row">
+							<span className="controls-demo">
+								<BeatMapControl
+									label={"⬛⬛⬛⬛"}
+									rowIndex={0}
+									extraCss={"text-[4px]"}
+									disabled={true}
+								/>
+								<BeatMapControl
+									label={"♪"}
+									rowIndex={0}
+									extraCss={"font-extrabold text-xl"}
+									disabled={true}
+								/>
+								<BeatMapControl
+									label={"♪"}
+									rowIndex={0}
+									extraCss={"font-extralight text-xs"}
+									disabled={true}
+								/>
+								<BeatMapControl label={"X"} rowIndex={0} extraCss={""} disabled={true} />
+							</span>
+							<p>
+								Each drum row has its own toolset, in order: fill the whole row with notes, fill only
+								the strong beats, fill only the weak beats, or clear the row. Filled notes use whichever
+								dynamic is currently selected.
+							</p>
+						</div>
+					</section>
 
-					<div>
-						<button className={"w-[120px] h-[2.5rem]"} disabled>
-							Add fill
-						</button>
-					</div>
-					<div>
-						Adds a fill at the end of every 2nd, 4th, or 8th loop (replaces the last 3 beats with snare
-						hits).
-					</div>
+					<section className="about-section">
+						<h2>Dynamics</h2>
+
+						<div className="about-row">
+							<span className="controls-demo">
+								<button className={"w-[4rem] h-[2.5rem] text-amber-950 font-bold"} disabled>
+									1
+								</button>
+								<button className={"w-[4rem] h-[2.5rem] text-amber-600 font-bold"} disabled>
+									2
+								</button>
+								<button className={"w-[4rem] h-[2.5rem] text-red-700 font-bold"} disabled>
+									3
+								</button>
+							</span>
+							<p>
+								Choose how hard the next notes you place will hit.{" "}
+								<span className="text-[#451a03] font-bold">1</span> is quietest,{" "}
+								<span className="text-[#d97706] font-bold">2</span> is the default, and{" "}
+								<span className="text-[#b91c1c] font-bold">3</span> is loudest. You can also switch
+								dynamics by pressing the <b>1</b>, <b>2</b>, and <b>3</b> keys.
+							</p>
+						</div>
+					</section>
+
+					<section className="about-section">
+						<h2>Tempo & length</h2>
+
+						<div className="about-row">
+							<span className="controls-demo">
+								BPM
+								<Slider
+									className="w-[75px] bg-slate-700 ml-[10px]"
+									value={[4]}
+									min={0}
+									max={5}
+									step={1}
+								/>
+							</span>
+							<p>Set the tempo, from 30 to 300 beats per minute.</p>
+						</div>
+
+						<div className="about-row">
+							<span className="controls-demo">
+								Steps
+								<Slider
+									className="w-[75px] bg-slate-700 ml-[10px]"
+									value={[4]}
+									min={0}
+									max={5}
+									step={1}
+								/>
+							</span>
+							<p>
+								Set how many steps make up the beat map. Fewer steps means a shorter pattern; more steps
+								lets you program longer or more detailed beats.
+							</p>
+						</div>
+					</section>
+
+					<section className="about-section">
+						<h2>Presets</h2>
+
+						<div className="about-row">
+							<span className="controls-demo">
+								<button className="savepattern" disabled>
+									Save 1-{DEFAULT_PATTERNS.length}
+								</button>
+								<button className="savepattern" disabled>
+									Load 1-{DEFAULT_PATTERNS.length}
+								</button>
+							</span>
+							<p>
+								Save your beat to one of {DEFAULT_PATTERNS.length} slots in your browser's local
+								storage, and load it back in any time with the matching Load button.
+							</p>
+						</div>
+					</section>
+
+					<section className="about-section">
+						<h2>Auto add</h2>
+
+						<div className="about-row">
+							<span className="controls-demo">
+								<button className={"w-[120px] h-[2.5rem]"} disabled>
+									Add accent
+								</button>
+							</span>
+							<p>
+								Automatically play a crash cymbal at the start of every 2nd, 4th, or 8th loop, on top of
+								whatever you've programmed.
+							</p>
+						</div>
+
+						<div className="about-row">
+							<span className="controls-demo">
+								<button className={"w-[120px] h-[2.5rem]"} disabled>
+									Add fill
+								</button>
+							</span>
+							<p>
+								Automatically swap the last three beats of every 2nd, 4th, or 8th loop for snare hits,
+								giving the loop a simple drum fill.
+							</p>
+						</div>
+					</section>
 				</div>
 			</main>
 		</>

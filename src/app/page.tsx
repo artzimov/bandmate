@@ -3,7 +3,7 @@ import * as React from "react";
 import { Players, Sequence, getTransport, start } from "tone";
 import Header from "@/components/Header";
 import { DEFAULT_PATTERNS } from "@/data/global-defaults";
-import { DynamicUnion, RowStep } from "@/data/interfaces";
+import { DynamicUnion, RowStep, PresetValidator } from "@/data/interfaces";
 import { useDropzone } from "react-dropzone";
 import { drumkitDefault, drumkitPreloader } from "@/data/kits/default/preloader";
 import {
@@ -26,6 +26,7 @@ import DynamicControls from "@/components/DynamicControls";
 import BPMSlider from "@/components/BPMSlider";
 import StepSlider from "@/components/StepSlider";
 import getSampleName from "@/functions/get-sample-name";
+import useUploadPreset from "@/hooks/useUploadPreset";
 
 export default function Home() {
 	const [player, setPlayer] = React.useState<Players | null>(null);
@@ -35,7 +36,33 @@ export default function Home() {
 	const sequenceRef = React.useRef<Sequence | null>(null);
 
 	// Dropzone
-	const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+	const uploadPresetToBandmate = useUploadPreset();
+
+	function handlePresetDrop(acceptedFiles: File[]) {
+		const file = acceptedFiles[0];
+		if (!file) return;
+
+		const reader = new FileReader();
+		reader.onloadend = (e) => {
+			if (!e.target?.result || typeof e.target.result !== "string") return;
+
+			try {
+				const content = JSON.parse(e.target.result);
+				uploadPresetToBandmate(content);
+			} catch {
+				return;
+			}
+		};
+		reader.readAsText(file);
+	}
+
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({
+		onDrop: handlePresetDrop,
+		noClick: true,
+		noKeyboard: true,
+		multiple: false,
+		accept: { "application/json": [".bandmate"] },
+	});
 
 	// Stores
 	const drumkit = useDrumkitStore((state) => state.drumkit);
@@ -260,19 +287,21 @@ export default function Home() {
 		const storageItem = localStorage.getItem(patternKey);
 		if (!storageItem) return;
 
-		const item = JSON.parse(storageItem);
+		try {
+			const result = PresetValidator.safeParse(JSON.parse(storageItem));
+			if (!result.success) return;
 
-		if (!item.steps || !item.meter || !item.bpm || !item.grid || !item.addCrash || !item.addFill) {
+			const preset = result.data;
+			setNumberOfSteps(preset.steps);
+			setMeter(preset.meter);
+			setGrid(preset.grid);
+			setBpm(preset.bpm);
+			setAddCrash(preset.addCrash);
+			setAddFill(preset.addFill);
+			getTransport().bpm.value = preset.bpm;
+		} catch {
 			return;
 		}
-
-		setNumberOfSteps(item.steps);
-		setMeter(item.meter);
-		setGrid(item.grid);
-		setBpm(item.bpm);
-		setAddCrash(item.addCrash);
-		setAddFill(item.addFill);
-		getTransport().bpm.value = item.bpm;
 	};
 
 	const handleHotKeys = (e: KeyboardEvent) => {
@@ -295,7 +324,15 @@ export default function Home() {
 	});
 
 	return (
-		<>
+		<div {...getRootProps()}>
+			<input {...getInputProps()} />
+
+			{isDragActive && (
+				<div className="dropzone-wrapper visible">
+					<div className="dropzone">Drop your .bandmate preset to load it</div>
+				</div>
+			)}
+
 			<Header />
 
 			<section className="ml-[20px] mr-[20px]">
@@ -461,6 +498,6 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
-		</>
+		</div>
 	);
 }

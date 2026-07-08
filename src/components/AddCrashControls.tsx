@@ -1,11 +1,10 @@
-import { AdditionsUnion, AdditionsOption } from "@/data/interfaces";
+import { AdditionsOption } from "@/data/interfaces";
+import { useAddCrashStore } from "@/data/global-state-store";
 
-interface AddCrashControlsProps {
-	addCrash: AdditionsUnion;
-	setAddCrash: (value: AdditionsUnion) => void;
-}
+export default function AddCrashControls() {
+	const addCrash = useAddCrashStore((state) => state.addCrash);
+	const setAddCrash = useAddCrashStore((state) => state.setAddCrash);
 
-export default function AddCrashControls({ addCrash, setAddCrash }: AddCrashControlsProps) {
 	const options: AdditionsOption[] = [
 		{ label: "Off", value: null },
 		{ label: "Every 2 bars", value: 2 },

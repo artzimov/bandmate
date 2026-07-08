@@ -1,12 +1,10 @@
 import { DYNAMICS } from "@/data/global-defaults";
-import { DynamicUnion } from "@/data/interfaces";
+import { useDynamicsStore } from "@/data/global-state-store";
 
-interface DynamicControlsProps {
-	dynamics: DynamicUnion;
-	setDynamics: (value: DynamicUnion) => void;
-}
+export default function DynamicControls() {
+	const dynamics = useDynamicsStore((state) => state.dynamics);
+	const setDynamics = useDynamicsStore((state) => state.setDynamics);
 
-export default function DynamicControls({ dynamics, setDynamics }: DynamicControlsProps) {
 	return (
 		<span>
 			{DYNAMICS.map((elm) => {

@@ -49,7 +49,17 @@ interface AddCrashState {
 
 interface AddFillState {
 	addFill: AdditionsUnion;
-	setAddFill: (addCrash: AdditionsUnion) => void;
+	setAddFill: (addFill: AdditionsUnion) => void;
+}
+
+interface LampState {
+	lamp: number | null;
+	setLamps: (lamp: number | null) => void;
+}
+
+interface LoopCounterState {
+	loopCounter: number;
+	setLoopCounter: (loopCounter: number) => void;
 }
 
 interface ThemeState {
@@ -102,6 +112,16 @@ export const useAddCrashStore = create<AddCrashState>()((set) => ({
 export const useAddFillStore = create<AddFillState>()((set) => ({
 	addFill: null,
 	setAddFill: (value) => set({ addFill: value }),
+}));
+
+export const useLampStore = create<LampState>()((set) => ({
+	lamp: null,
+	setLamps: (value) => set({ lamp: value }),
+}));
+
+export const useLoopCounterStore = create<LoopCounterState>()((set) => ({
+	loopCounter: 0,
+	setLoopCounter: (value) => set({ loopCounter: value }),
 }));
 
 export const useThemeStore = create<ThemeState>()(

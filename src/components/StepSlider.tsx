@@ -1,12 +1,10 @@
-import { Step } from "@/data/interfaces";
 import Slider from "./ui/Slider";
+import { useNumberOfStepsStore } from "@/data/global-state-store";
 
-interface StepSliderProps {
-	numberOfSteps: Step;
-	setNumberOfSteps: (value: Step) => void;
-}
+export default function StepSlider() {
+	const numberOfSteps = useNumberOfStepsStore((state) => state.numberOfSteps);
+	const setNumberOfSteps = useNumberOfStepsStore((state) => state.setNumberOfSteps);
 
-export default function StepSlider({ numberOfSteps, setNumberOfSteps }: StepSliderProps) {
 	function handleNumberOfStepsChange(values: number[]) {
 		setNumberOfSteps(values[0]);
 	}

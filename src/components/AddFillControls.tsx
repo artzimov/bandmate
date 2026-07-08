@@ -1,11 +1,10 @@
-import { AdditionsUnion, AdditionsOption } from "@/data/interfaces";
+import { AdditionsOption } from "@/data/interfaces";
+import { useAddFillStore } from "@/data/global-state-store";
 
-interface AddFillControlsProps {
-	addFill: AdditionsUnion;
-	setAddFill: (value: AdditionsUnion) => void;
-}
+export default function AddFillControls() {
+	const addFill = useAddFillStore((state) => state.addFill);
+	const setAddFill = useAddFillStore((state) => state.setAddFill);
 
-export default function AddFillControls({ addFill, setAddFill }: AddFillControlsProps) {
 	const options: AdditionsOption[] = [
 		{ label: "Off", value: null },
 		{ label: "Every 2 bars", value: 2 },

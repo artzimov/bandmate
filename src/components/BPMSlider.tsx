@@ -1,13 +1,11 @@
 import { getTransport } from "tone";
-import { BPM } from "@/data/interfaces";
+import { useBPMStore } from "@/data/global-state-store";
 import Slider from "./ui/Slider";
 
-interface BPMSliderProps {
-	bpm: BPM;
-	setBpm: (value: BPM) => void;
-}
+export default function BPMSlider() {
+	const bpm = useBPMStore((state) => state.bpm);
+	const setBpm = useBPMStore((state) => state.setBpm);
 
-export default function BPMSlider({ bpm, setBpm }: BPMSliderProps) {
 	function handleBPMSliderChange(values: number[]) {
 		setBpm(values[0]);
 		getTransport().bpm.value = values[0];

@@ -1,42 +1,32 @@
 "use client";
 import * as React from "react";
-import { Players, Sequence, getTransport, start } from "tone";
+import { Players, Sequence } from "tone";
 import Header from "@/components/Header";
-import { DEFAULT_PATTERNS } from "@/data/global-defaults";
-import { DynamicUnion, PresetValidator } from "@/data/interfaces";
 import { useDropzone } from "react-dropzone";
 import { drumkitDefault, drumkitPreloader } from "@/data/kits/default/preloader";
 import {
 	useNumberOfStepsStore,
 	useMeterStore,
-	useBPMStore,
 	useGridStore,
-	useIsPlayingStore,
 	useDrumkitStore,
 	useAddCrashStore,
 	useAddFillStore,
+	useDynamicsStore,
+	useLampStore,
+	useLoopCounterStore,
 } from "@/data/global-state-store";
 import createEmptyGrid from "@/functions/create-empty-grid";
-import createPreset from "@/functions/create-preset";
-import AddFillControls from "@/components/AddFillControls";
-import AddCrashControls from "@/components/AddCrashControls";
 import BeatMapCell from "@/components/BeatMapCell";
-import BeatMapControl from "@/components/BeatMapControl";
-import DynamicControls from "@/components/DynamicControls";
-import BPMSlider from "@/components/BPMSlider";
-import StepSlider from "@/components/StepSlider";
 import getSampleName from "@/functions/get-sample-name";
 import useUploadPreset from "@/hooks/useUploadPreset";
-import useRowControls from "@/hooks/useRowControls";
+import RowControls from "@/components/RowControls";
+import PanelAutoAdd from "@/components/PanelAutoAdd";
+import PanelPresets from "@/components/PanelPresets";
+import PanelMainControls from "@/components/PanelMainControls";
 
 export default function Home() {
 	const [player, setPlayer] = React.useState<Players | null>(null);
-	const [dynamics, setDynamics] = React.useState<DynamicUnion>("2");
-	const [lamps, setLamps] = React.useState<number | null>(null);
-	const [loopCounter, setLoopCounter] = React.useState<number>(0);
 	const sequenceRef = React.useRef<Sequence | null>(null);
-
-	const { clearGrid, clearEntireRow, fillEntireRow, fillStrongBeats, fillWeakBeats } = useRowControls();
 
 	// Dropzone
 	const uploadPresetToBandmate = useUploadPreset();
@@ -71,19 +61,17 @@ export default function Home() {
 	const drumkit = useDrumkitStore((state) => state.drumkit);
 	const setDrumkit = useDrumkitStore((state) => state.setDrumkit);
 	const numberOfSteps = useNumberOfStepsStore((state) => state.numberOfSteps);
-	const setNumberOfSteps = useNumberOfStepsStore((state) => state.setNumberOfSteps);
 	const meter = useMeterStore((state) => state.meter);
-	const setMeter = useMeterStore((state) => state.setMeter);
-	const bpm = useBPMStore((state) => state.bpm);
-	const setBpm = useBPMStore((state) => state.setBpm);
 	const grid = useGridStore((state) => state.grid);
 	const setGrid = useGridStore((state) => state.setGrid);
-	const isPlaying = useIsPlayingStore((state) => state.isPlaying);
-	const setIsPlaying = useIsPlayingStore((state) => state.setIsPlaying);
 	const addCrash = useAddCrashStore((state) => state.addCrash);
-	const setAddCrash = useAddCrashStore((state) => state.setAddCrash);
 	const addFill = useAddFillStore((state) => state.addFill);
-	const setAddFill = useAddFillStore((state) => state.setAddFill);
+	const dynamics = useDynamicsStore((state) => state.dynamics);
+	const setDynamics = useDynamicsStore((state) => state.setDynamics);
+	const lamps = useLampStore((state) => state.lamp);
+	const setLamps = useLampStore((state) => state.setLamps);
+	const loopCounter = useLoopCounterStore((state) => state.loopCounter);
+	const setLoopCounter = useLoopCounterStore((state) => state.setLoopCounter);
 
 	React.useEffect(() => {
 		if (!drumkitDefault) return;
@@ -135,7 +123,7 @@ export default function Home() {
 			"16n",
 		);
 		sequenceRef.current.start(0);
-	}, [numberOfSteps, grid, player, loopCounter, lamps, addCrash, addFill]);
+	}, [numberOfSteps, grid, player, loopCounter, lamps, addCrash, addFill, setLamps, setLoopCounter]);
 
 	function toggleNote(x: number, y: number) {
 		if (!grid) return;
@@ -150,94 +138,6 @@ export default function Home() {
 
 		setGrid(changedGrid);
 	}
-
-	async function togglePlayButton() {
-		if (!isPlaying) {
-			await start();
-			getTransport().toggle();
-			setIsPlaying(true);
-		}
-
-		if (isPlaying) {
-			getTransport().toggle();
-			setIsPlaying(false);
-			setLamps(null);
-			setLoopCounter(0);
-		}
-	}
-
-	function handleMeterChange() {
-		if (isPlaying) {
-			togglePlayButton();
-		}
-
-		clearGrid();
-		setAddCrash(null);
-		setAddFill(null);
-
-		if (meter === "quadruple") {
-			setMeter("triple");
-			setNumberOfSteps(24);
-		}
-		if (meter === "triple") {
-			setMeter("quadruple");
-			setNumberOfSteps(16);
-		}
-	}
-
-	const savePresetToLocalStorage = (id: number) => {
-		if (!grid) {
-			return;
-		}
-		const Preset = createPreset(numberOfSteps, meter, bpm, addCrash, addFill, grid);
-
-		if (!Preset) return;
-
-		const fileName: string = "BANDMATE_" + id.toString();
-
-		localStorage.setItem(fileName, Preset);
-	};
-
-	const loadPresetFromLocalStorage = (id: number) => {
-		const patternKey: string = "BANDMATE_" + id.toString();
-		const storageItem = localStorage.getItem(patternKey);
-		if (!storageItem) return;
-
-		try {
-			const result = PresetValidator.safeParse(JSON.parse(storageItem));
-			if (!result.success) return;
-
-			const preset = result.data;
-			setNumberOfSteps(preset.steps);
-			setMeter(preset.meter);
-			setGrid(preset.grid);
-			setBpm(preset.bpm);
-			setAddCrash(preset.addCrash);
-			setAddFill(preset.addFill);
-			getTransport().bpm.value = preset.bpm;
-		} catch {
-			return;
-		}
-	};
-
-	const handleHotKeys = (e: KeyboardEvent) => {
-		if (e.key === "1") {
-			setDynamics("1");
-		} else if (e.key === "2") {
-			setDynamics("2");
-		} else if (e.key === "3") {
-			setDynamics("3");
-		} else if (e.key === "x" || e.key === "X") {
-			togglePlayButton();
-		}
-	};
-
-	React.useEffect(() => {
-		window.addEventListener("keyup", handleHotKeys);
-		return () => {
-			window.removeEventListener("keyup", handleHotKeys);
-		};
-	});
 
 	return (
 		<div {...getRootProps()}>
@@ -267,41 +167,7 @@ export default function Home() {
 											{rowData.rowButtonName}
 										</button>
 
-										<span
-											className={
-												"row-tools" +
-												`${rowIndex === 0 ? " upper" : rowIndex === grid.length - 1 ? " lower" : ""}`
-											}
-										>
-											<BeatMapControl
-												label={"⬛⬛⬛⬛"}
-												rowIndex={rowIndex}
-												extraCss={"text-[4px]"}
-												title="Fill entire row with notes"
-												action={fillEntireRow}
-											/>
-											<BeatMapControl
-												label={"♪"}
-												rowIndex={rowIndex}
-												extraCss={"font-extrabold text-xl"}
-												title="Fill strong beats only"
-												action={fillStrongBeats}
-											/>
-											<BeatMapControl
-												label={"♪"}
-												rowIndex={rowIndex}
-												extraCss={"font-extralight text-xs"}
-												title="Fill weak beats only"
-												action={fillWeakBeats}
-											/>
-											<BeatMapControl
-												label={"X"}
-												rowIndex={rowIndex}
-												extraCss={""}
-												title="Clear this row"
-												action={clearEntireRow}
-											/>
-										</span>
+										<RowControls rowIndex={rowIndex} />
 									</div>
 
 									<span className="step-grid">
@@ -343,75 +209,11 @@ export default function Home() {
 					</div>
 				</div>
 
-				<div className="toolbar">
-					<span className="toolbar-group">
-						<button
-							className={"main-controls font-bold " + (isPlaying ? " text-amber-600" : "")}
-							onClick={togglePlayButton}
-						>
-							{isPlaying ? "STOP" : "PLAY"}
-						</button>
-						<button className="main-controls" onClick={handleMeterChange}>
-							{meter === "quadruple" ? "4/4" : "3/4"}
-						</button>
-						<button className="main-controls" onClick={clearGrid}>
-							CLEAR
-						</button>
-					</span>
-
-					<span className="toolbar-divider"></span>
-
-					<span className="toolbar-group">
-						<span className="toolbar-label">Dynamics</span>
-						<DynamicControls dynamics={dynamics} setDynamics={setDynamics} />
-					</span>
-
-					<span className="toolbar-divider"></span>
-
-					<span className="toolbar-group">
-						<BPMSlider bpm={bpm} setBpm={setBpm} />
-					</span>
-
-					<span className="toolbar-divider"></span>
-
-					<span className="toolbar-group">
-						<StepSlider numberOfSteps={numberOfSteps} setNumberOfSteps={setNumberOfSteps} />
-					</span>
-				</div>
+				<PanelMainControls />
 
 				<div className="bottom-panels">
-					<div className="panel-card">
-						<h2>Presets</h2>
-						<div className="saved-patterns !ml-0">
-							{DEFAULT_PATTERNS.map((x) => {
-								return (
-									<span key={"pattern-row-" + `${x}`}>
-										<p>
-											<button className="savepattern" onClick={() => savePresetToLocalStorage(x)}>
-												Save <b>({x})</b>
-											</button>
-										</p>
-										<p>
-											<button
-												className={"savepattern"}
-												onClick={() => loadPresetFromLocalStorage(x)}
-											>
-												Load <b>({x})</b>
-											</button>
-										</p>
-									</span>
-								);
-							})}
-						</div>
-					</div>
-
-					<div className="panel-card">
-						<h2>Auto Add</h2>
-						<span className="flex flex-col flex-nowrap gap-[6px]">
-							<AddCrashControls addCrash={addCrash} setAddCrash={setAddCrash} />
-							<AddFillControls addFill={addFill} setAddFill={setAddFill} />
-						</span>
-					</div>
+					<PanelPresets />
+					<PanelAutoAdd />
 				</div>
 			</section>
 		</div>

@@ -3,7 +3,7 @@ import * as React from "react";
 import { Players, Sequence, getTransport, start } from "tone";
 import Header from "@/components/Header";
 import { DEFAULT_PATTERNS } from "@/data/global-defaults";
-import { DynamicUnion, RowStep, PresetValidator } from "@/data/interfaces";
+import { DynamicUnion, PresetValidator } from "@/data/interfaces";
 import { useDropzone } from "react-dropzone";
 import { drumkitDefault, drumkitPreloader } from "@/data/kits/default/preloader";
 import {
@@ -27,6 +27,7 @@ import BPMSlider from "@/components/BPMSlider";
 import StepSlider from "@/components/StepSlider";
 import getSampleName from "@/functions/get-sample-name";
 import useUploadPreset from "@/hooks/useUploadPreset";
+import useRowControls from "@/hooks/useRowControls";
 
 export default function Home() {
 	const [player, setPlayer] = React.useState<Players | null>(null);
@@ -34,6 +35,8 @@ export default function Home() {
 	const [lamps, setLamps] = React.useState<number | null>(null);
 	const [loopCounter, setLoopCounter] = React.useState<number>(0);
 	const sequenceRef = React.useRef<Sequence | null>(null);
+
+	const { clearGrid, clearEntireRow, fillEntireRow, fillStrongBeats, fillWeakBeats } = useRowControls();
 
 	// Dropzone
 	const uploadPresetToBandmate = useUploadPreset();
@@ -179,93 +182,6 @@ export default function Home() {
 		if (meter === "triple") {
 			setMeter("quadruple");
 			setNumberOfSteps(16);
-		}
-	}
-
-	function clearGrid() {
-		const emptyGrid = createEmptyGrid(drumkit, 32);
-		if (emptyGrid) {
-			setGrid(structuredClone(emptyGrid));
-		}
-	}
-
-	function clearEntireRow(y: number) {
-		if (grid) {
-			const changedGrid = [...grid];
-
-			const setOfNulls: null[] = [];
-			for (let i = 0; i < 32; i++) {
-				setOfNulls.push(null);
-			}
-
-			if (changedGrid[y]) {
-				changedGrid[y].rowSteps = setOfNulls;
-				setGrid(changedGrid);
-			}
-		}
-	}
-
-	function fillEntireRow(y: number) {
-		if (grid) {
-			const changedGrid = [...grid];
-
-			const newRow: RowStep[] = [];
-			for (let i = 0; i < numberOfSteps; i++) {
-				newRow.push(dynamics);
-			}
-
-			while (newRow.length < 32) {
-				newRow.push(null);
-			}
-
-			if (changedGrid[y]) {
-				changedGrid[y].rowSteps = newRow;
-				setGrid(changedGrid);
-			}
-		}
-	}
-
-	function fillStrongBeats(y: number) {
-		if (grid) {
-			const changedGrid = [...grid];
-
-			const newRow: RowStep[] = [];
-			for (let i = 0; i < numberOfSteps; i++) {
-				if (i % (meter === "quadruple" ? 2 : 3) === 0) {
-					newRow.push(dynamics);
-				} else newRow.push(grid[y].rowSteps[i]);
-			}
-
-			while (newRow.length < 32) {
-				newRow.push(null);
-			}
-
-			if (changedGrid[y]) {
-				changedGrid[y].rowSteps = newRow;
-				setGrid(changedGrid);
-			}
-		}
-	}
-
-	function fillWeakBeats(y: number) {
-		if (grid) {
-			const changedGrid = [...grid];
-
-			const newRow: RowStep[] = [];
-			for (let i = 0; i < numberOfSteps; i++) {
-				if (i % (meter === "quadruple" ? 2 : 3) !== 0) {
-					newRow.push(dynamics);
-				} else newRow.push(grid[y].rowSteps[i]);
-			}
-
-			while (newRow.length < 32) {
-				newRow.push(null);
-			}
-
-			if (changedGrid[y]) {
-				changedGrid[y].rowSteps = newRow;
-				setGrid(changedGrid);
-			}
 		}
 	}
 

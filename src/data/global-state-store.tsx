@@ -1,7 +1,7 @@
 "use client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Drumkit, Step, Meter, BPM, Grid, AdditionsUnion, Theme } from "@/data/interfaces";
+import { Drumkit, Step, Meter, BPM, Grid, AdditionsUnion, Theme, DynamicUnion } from "@/data/interfaces";
 import { DEFAULT_BPM, DEFAULT_STEPS } from "@/data/global-defaults";
 import { drumkitDefault } from "./kits/default/preloader";
 
@@ -20,6 +20,11 @@ interface NumberOfStepsState {
 interface MeterState {
 	meter: Meter;
 	setMeter: (meter: Meter) => void;
+}
+
+interface DynamicsState {
+	dynamics: DynamicUnion;
+	setDynamics: (dynamics: DynamicUnion) => void;
 }
 
 interface BPMState {
@@ -67,6 +72,11 @@ export const useNumberOfStepsStore = create<NumberOfStepsState>()((set) => ({
 export const useMeterStore = create<MeterState>()((set) => ({
 	meter: "quadruple",
 	setMeter: (value) => set({ meter: value }),
+}));
+
+export const useDynamicsStore = create<DynamicsState>()((set) => ({
+	dynamics: "2",
+	setDynamics: (value) => set({ dynamics: value }),
 }));
 
 export const useBPMStore = create<BPMState>()((set) => ({

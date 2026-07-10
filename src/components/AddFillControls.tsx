@@ -13,10 +13,10 @@ export default function AddFillControls() {
 	];
 
 	return (
-		<span className="flex flex-row">
-			<button className="flex-1 w-36" disabled>
+		<span className="flex flex-row gap-[2px]">
+			<span className="flex w-24 items-center">
 				<p>Add fill</p>
-			</button>
+			</span>
 
 			{options.map(({ label, value }) => (
 				<button

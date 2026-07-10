@@ -63,17 +63,17 @@ export default function Presets() {
 	return (
 		<div className="panel-card">
 			<h2>Presets</h2>
-			<div className="saved-patterns !ml-0">
+			<div className="saved-patterns">
 				{DEFAULT_PATTERNS.map((x) => {
 					return (
-						<span key={"pattern-row-" + `${x}`}>
+						<span key={"pattern-row-" + `${x}`} className="flex flex-col gap-0.5">
 							<p>
 								<button className="savepattern" onClick={() => savePresetToLocalStorage(x)}>
 									Save <b>({x})</b>
 								</button>
 							</p>
 							<p>
-								<button className={"savepattern"} onClick={() => loadPresetFromLocalStorage(x)}>
+								<button className="savepattern" onClick={() => loadPresetFromLocalStorage(x)}>
 									Load <b>({x})</b>
 								</button>
 							</p>

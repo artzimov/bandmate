@@ -83,7 +83,7 @@ button:enabled:active {
 .savepattern {
 	width: 5rem;
 	height: 2.5rem;
-	margin: 2px;
+	/*margin: 2px;*/
 }
 
 .saved-patterns {
@@ -91,8 +91,7 @@ button:enabled:active {
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
-	gap: 0px;
-	margin-left: var(--margin-general);
+	gap: 2px;
 }
 
 .cell-size {

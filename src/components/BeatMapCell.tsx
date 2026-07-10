@@ -20,7 +20,7 @@ export default function BeatMapCell({ rowData, rowIndex, cellIndex, meter, toggl
 			role="button"
 			tabIndex={0}
 			aria-pressed={dynamic !== null}
-			className={`${styles.note} ${dynamic !== null ? styles[`active-${dynamic}`] : styles.inactive} ${styles[meter]}`}
+			className={`${styles.note} ${dynamic !== null ? styles[`active-${dynamic}`] : styles.inactive} ${meter}`}
 			onClick={handleActivate}
 			onKeyDown={(e) => {
 				if (e.key === "Enter" || e.key === " ") {

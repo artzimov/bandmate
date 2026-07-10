@@ -6,26 +6,23 @@ import { useDropzone } from "react-dropzone";
 import { drumkitDefault, drumkitPreloader } from "@/data/kits/default/preloader";
 import {
 	useNumberOfStepsStore,
-	useMeterStore,
 	useGridStore,
 	useDrumkitStore,
 	useAddCrashStore,
 	useAddFillStore,
-	useDynamicsStore,
 	useLampStore,
 	useLoopCounterStore,
+	usePlayerStore,
 } from "@/data/global-state-store";
 import createEmptyGrid from "@/functions/create-empty-grid";
-import BeatMapCell from "@/components/BeatMapCell";
 import getSampleName from "@/functions/get-sample-name";
 import useUploadPreset from "@/hooks/useUploadPreset";
-import RowControls from "@/components/RowControls";
 import PanelAutoAdd from "@/components/PanelAutoAdd";
 import PanelPresets from "@/components/PanelPresets";
 import PanelMainControls from "@/components/PanelMainControls";
+import PanelGrid from "@/components/PanelGrid";
 
 export default function Home() {
-	const [player, setPlayer] = React.useState<Players | null>(null);
 	const sequenceRef = React.useRef<Sequence | null>(null);
 
 	// Dropzone
@@ -61,17 +58,16 @@ export default function Home() {
 	const drumkit = useDrumkitStore((state) => state.drumkit);
 	const setDrumkit = useDrumkitStore((state) => state.setDrumkit);
 	const numberOfSteps = useNumberOfStepsStore((state) => state.numberOfSteps);
-	const meter = useMeterStore((state) => state.meter);
 	const grid = useGridStore((state) => state.grid);
 	const setGrid = useGridStore((state) => state.setGrid);
 	const addCrash = useAddCrashStore((state) => state.addCrash);
 	const addFill = useAddFillStore((state) => state.addFill);
-	const dynamics = useDynamicsStore((state) => state.dynamics);
-	const setDynamics = useDynamicsStore((state) => state.setDynamics);
 	const lamps = useLampStore((state) => state.lamp);
 	const setLamps = useLampStore((state) => state.setLamps);
 	const loopCounter = useLoopCounterStore((state) => state.loopCounter);
 	const setLoopCounter = useLoopCounterStore((state) => state.setLoopCounter);
+	const player = usePlayerStore((state) => state.player);
+	const setPlayer = usePlayerStore((state) => state.setPlayer);
 
 	React.useEffect(() => {
 		if (!drumkitDefault) return;
@@ -85,7 +81,7 @@ export default function Home() {
 		if (emptyGrid) {
 			setGrid(emptyGrid);
 		}
-	}, [drumkit, setDrumkit, setGrid]);
+	}, [drumkit, setDrumkit, setGrid, setPlayer]);
 
 	React.useEffect(() => {
 		if (!grid || !player) return;
@@ -125,20 +121,6 @@ export default function Home() {
 		sequenceRef.current.start(0);
 	}, [numberOfSteps, grid, player, loopCounter, lamps, addCrash, addFill, setLamps, setLoopCounter]);
 
-	function toggleNote(x: number, y: number) {
-		if (!grid) return;
-
-		const changedGrid = [...grid];
-
-		if (changedGrid[y].rowSteps[x] !== dynamics) {
-			changedGrid[y].rowSteps[x] = dynamics;
-		} else {
-			changedGrid[y].rowSteps[x] = null;
-		}
-
-		setGrid(changedGrid);
-	}
-
 	return (
 		<div {...getRootProps()}>
 			<input {...getInputProps()} />
@@ -152,63 +134,7 @@ export default function Home() {
 			<Header />
 
 			<section className="ml-[20px] mr-[20px]">
-				<div className="sequencer-panel">
-					{grid ? (
-						grid.map((rowData, rowIndex) => {
-							return (
-								<div key={"sequencer-row-" + `${rowIndex}`} className="sequencer-row">
-									<div className="row-head">
-										<button
-											className="cell-size row-label w-[8.5rem] min-w-[7rem] m-[1px]"
-											onClick={() =>
-												player?.player(`${rowData.rowName}` + "_" + `${dynamics}`).start()
-											}
-										>
-											{rowData.rowButtonName}
-										</button>
-
-										<RowControls rowIndex={rowIndex} />
-									</div>
-
-									<span className="step-grid">
-										{[...Array(numberOfSteps)].map((_, cellIndex) => {
-											return (
-												<BeatMapCell
-													key={cellIndex}
-													rowData={rowData}
-													rowIndex={rowIndex}
-													cellIndex={cellIndex}
-													meter={meter}
-													toggleNote={toggleNote}
-												/>
-											);
-										})}
-									</span>
-								</div>
-							);
-						})
-					) : (
-						<p>Loading...</p>
-					)}
-					<div className="flex flex-row justify-start items-center mt-[4px] bg-">
-						<span className="w-[16.25rem] h-[30px] mr-[28px]"></span>
-
-						<span className="flex flex-row">
-							{[...Array(numberOfSteps)].map((_, i) => {
-								return (
-									<span key={"lamp-" + i} className={`lamp-square ${meter}`}>
-										{lamps === i ? (
-											<span key={"lamp_" + i} className="lamp bg-red-700"></span>
-										) : (
-											<></>
-										)}
-									</span>
-								);
-							})}
-						</span>
-					</div>
-				</div>
-
+				<PanelGrid />
 				<PanelMainControls />
 
 				<div className="bottom-panels">

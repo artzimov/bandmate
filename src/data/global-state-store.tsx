@@ -1,4 +1,5 @@
 "use client";
+import { Players } from "tone";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Drumkit, Step, Meter, BPM, Grid, AdditionsUnion, Theme, DynamicUnion } from "@/data/interfaces";
@@ -62,6 +63,11 @@ interface LoopCounterState {
 	setLoopCounter: (loopCounter: number) => void;
 }
 
+interface PlayerState {
+	player: Players | null;
+	setPlayer: (player: Players | null) => void;
+}
+
 interface ThemeState {
 	theme: Theme;
 	toggleTheme: () => void;
@@ -122,6 +128,11 @@ export const useLampStore = create<LampState>()((set) => ({
 export const useLoopCounterStore = create<LoopCounterState>()((set) => ({
 	loopCounter: 0,
 	setLoopCounter: (value) => set({ loopCounter: value }),
+}));
+
+export const usePlayerStore = create<PlayerState>()((set) => ({
+	player: null,
+	setPlayer: (value) => set({ player: value }),
 }));
 
 export const useThemeStore = create<ThemeState>()(

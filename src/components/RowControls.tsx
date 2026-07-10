@@ -7,7 +7,7 @@ interface RowControlsProps {
 }
 
 export default function RowControls(props: RowControlsProps) {
-	const { clearGrid, clearEntireRow, fillEntireRow, fillStrongBeats, fillWeakBeats } = useRowControls();
+	const { clearEntireRow, fillEntireRow, fillStrongBeats, fillWeakBeats } = useRowControls();
 
 	const grid = useGridStore((state) => state.grid);
 	if (!grid) {
@@ -15,11 +15,7 @@ export default function RowControls(props: RowControlsProps) {
 	}
 
 	return (
-		<span
-			className={
-				"row-tools" + `${props.rowIndex === 0 ? " upper" : props.rowIndex === grid.length - 1 ? " lower" : ""}`
-			}
-		>
+		<div className="flex items-center gap-[1px] p-0">
 			<BeatMapControl
 				label={"⬛⬛⬛⬛"}
 				rowIndex={props.rowIndex}
@@ -48,6 +44,6 @@ export default function RowControls(props: RowControlsProps) {
 				title="Clear this row"
 				action={clearEntireRow}
 			/>
-		</span>
+		</div>
 	);
 }

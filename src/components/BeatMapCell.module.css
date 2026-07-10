@@ -45,14 +45,6 @@
 	font-size: 125%;
 }
 
-.quadruple:nth-child(4n) {
-	margin-right: 10px;
-}
-
-.triple:nth-child(3n) {
-	margin-right: 10px;
-}
-
 .inactive {
 	background-color: var(--inactive);
 	transition: background-color 0.1s;

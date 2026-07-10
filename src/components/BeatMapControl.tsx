@@ -23,7 +23,7 @@ export default function BeatMapControl({
 
 	return (
 		<button
-			className={`button cell-size w-[2rem] min-w-[1.5rem] m-[1px] ${extraCss}`}
+			className={`h-[var(--cell-size)] min-w-[var(--cell-size)] m-[1px] border border-black rounded-[0.25rem] bg-[var(--panel-border)] hover:bg-[var(--button-hover)] ${extraCss}`}
 			disabled={disabled}
 			title={title}
 			onClick={handleAction}

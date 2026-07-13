@@ -201,6 +201,46 @@ button:enabled:active {
 	opacity: 0.85;
 }
 
+/* ---------- Toast ---------- */
+
+.toast {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	padding: 11px 16px;
+	border-radius: 10px;
+	border: 1px solid;
+	font-size: 0.85em;
+	font-weight: 500;
+	max-width: 340px;
+	z-index: 200;
+	cursor: pointer;
+	opacity: 0;
+	transform: translateY(6px);
+	transition:
+		opacity 0.2s,
+		transform 0.2s;
+	pointer-events: none;
+}
+
+.toast.toast-visible {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+}
+
+.toast.toast-success {
+	background-color: #052e16;
+	border-color: #166534;
+	color: #86efac;
+}
+
+.toast.toast-error {
+	background-color: #2d0a0a;
+	border-color: #7f1d1d;
+	color: #fca5a5;
+}
+
 .dropzone-wrapper {
 	position: fixed;
 	top: 0;

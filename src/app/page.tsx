@@ -17,6 +17,7 @@ import {
 import createEmptyGrid from "@/functions/create-empty-grid";
 import getSampleName from "@/functions/get-sample-name";
 import useUploadPreset from "@/hooks/useUploadPreset";
+import { useToastStore } from "@/data/toast-store";
 import PanelAutoAdd from "@/components/PanelAutoAdd";
 import PanelPresets from "@/components/PanelPresets";
 import PanelMainControls from "@/components/PanelMainControls";
@@ -27,6 +28,7 @@ export default function Home() {
 
 	// Dropzone
 	const uploadPresetToBandmate = useUploadPreset();
+	const showToast = useToastStore((state) => state.showToast);
 
 	function handlePresetDrop(acceptedFiles: File[]) {
 		const file = acceptedFiles[0];
@@ -40,7 +42,7 @@ export default function Home() {
 				const content = JSON.parse(e.target.result);
 				uploadPresetToBandmate(content);
 			} catch {
-				return;
+				showToast("Could not read file — is it a .bandmate preset?", "error");
 			}
 		};
 		reader.readAsText(file);
